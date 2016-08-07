@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog xsi:noNamespaceSchemaLocation="WatsonDialogDocument_1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <flow>
+        <folder label="Main">
+            <output>
+                <prompt selectionType="RANDOM">
+                    <item>嗨，大家好，我是钢豆</item>
+                </prompt>
+                <goto ref="getUserInput_start"/>
+            </output>
+            <output>
+                <prompt selectionType="RANDOM">
+                    <item>请问有什么可以帮你</item>
+                </prompt>
+                <getUserInput id="getUserInput_start">
+                    <search ref="folder_hello"/>
+                    <search ref="folder_story"/>
+                    <search ref="folder_qna"/>
+                    <search ref="folder_rnr"/>
+                    <default>
+                        <output>
+                            <prompt selectionType="RANDOM">
+                                <!-- <item>我没听清，请再说一遍</item>
+                                <item>请再说一遍，慢点讲</item> -->
+                                <item>对不起，我还不能回答所有的问题</item>
+                            </prompt>
+                        </output>
+                    </default>
+                </getUserInput>
+            </output>
+        </folder>
+        <folder label="Library">
+		
+			<folder label="speak story" id="folder_story">
+                <input>
+                    <grammar>
+                        <item>$ 讲 * 故 事 </item>
+                        <item>$ 讲 故 事 </item>
+                        <item>$ 故 事 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+							<item>好的。讲一个长一点的还是短一点的？</item>
+                            <item>好的。想听长一点的还是短一点的？</item>
+                        </prompt>
+						
+						<goto ref="getInput_Story"/>
+                    </output>
+                </input>
+
+				<input id="getInput_Story">
+                    <grammar>
+                        <item>$ (Story)={storyLength} 的 </item>
+                        <item>$ (Story)={storyLength} 一 点 的 </item>
+                        <item>$ (Story)={storyLength} 一 点 儿 的 </item>
+                        <item>$ (Story)={storyLength} 呢 </item>
+                        <item>$ (Story)={storyLength} 一 点 呢 </item>
+                        <item>$ (Story)={storyLength} 一 点 儿 呢 </item>
+                    </grammar>
+                    
+                    <action varName="storyLength" operator="SET_TO">{storyLength.value:main}</action>
+
+                    <if>
+						<cond varName="storyLength" operator="EQUALS">1</cond>	
+						<output>
+							<prompt selectionType="RANDOM">
+								<item>好的。从前有一只蜜蜂在窗台边嗡嗡飞，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，嗡嗡嗡，如果你喜欢，我可以让它继续嗡嗡飞。</item>
+							</prompt>
+                            <getUserInput>
+                                <input>
+                                    <grammar>
+                                        <item>$ 继 续 </item>
+                                        <item>$ 好 呀 </item>
+                                        <item>$ 我 喜 欢 </item>
+                                    </grammar>
+                                
+                                    <output>
+                                        <prompt selectionType="RANDOM">
+                                            <!-- <item>呵呵！我可不说了，我才没那么无聊呢！</item>
+                                            <item>呵呵！傻瓜！这是一个段子而已！</item> -->
+                                            <item>呵呵！你是有多无聊呀！这是一个段子而已！</item>
+                                        </prompt>
+                                    </output>
+                                </input>
+                            </getUserInput>
+						</output>							
+					</if>
+					<if>
+					    <cond varName="storyLength" operator="EQUALS">0</cond>	
+						<output>
+							<prompt selectionType="RANDOM">
+								<item>好的。从前有一只蜜蜂在窗台边嗡嗡飞，嗡，啪，撞到玻璃上昏过去了。</item>
+							</prompt>
+                            <getUserInput>
+                                <input>
+                                    <grammar>
+                                        <item>$ 讲 冷 笑 话 </item>
+                                    </grammar>
+                                
+                                    <output>
+                                        <prompt selectionType="RANDOM">
+                                            <item>是呀！你听出来啦！</item>
+                                            <!-- <item>不好笑吗？</item> -->
+                                        </prompt>
+                                    </output>
+                                </input>
+                            </getUserInput>
+						</output>							
+					</if>
+                </input>
+
+                
+
+                <folder label="Check Out">
+                    
+                </folder>
+				<goto ref="getUserInput_start"/>
+            </folder>
+			
+            <folder label="question and answer sample" id="folder_qna">
+                <input>
+                    <grammar>
+                        <item>$ 说 个 绕 口 令 </item>
+                        <item>$ 讲 个 绕 口 令 </item>
+                        <item>$ 说 绕 口 令 吗 </item>
+                        <item>$ 讲 绕 口 令 吗 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>这个可以有。打南边来了一个喇嘛，手里提着五斤鳎蚂；打北边来了一个哑巴，腰里别着一个喇叭；提搂鳎蚂的喇嘛要拿鳎蚂去换别着喇叭的哑巴的喇叭，别着喇叭的哑巴不愿意拿喇叭去换提搂鳎蚂的喇嘛的鳎蚂；提搂鳎蚂的喇嘛抡起鳎蚂就给了别着喇叭的哑巴一鳎蚂，别着喇叭的哑巴抽出喇叭就给了提搂鳎蚂的喇嘛一喇叭；也不知是提搂鳎蚂的喇嘛打了别着喇叭的哑巴，还是别着喇叭的哑巴打了提搂鳎蚂的喇嘛；喇嘛回家炖鳎蚂，哑巴回家滴滴答答吹喇叭。哈哈哈哈，我可没缓气。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 你 是 帅 哥 吗 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>现代人认为，男子五官清秀俊美，双眼有神，即为帅哥。所以，请叫我帅小铁。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 有 女 朋 友 吗 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>别看我长得成熟，我还是个小孩子哦，早恋是不允许的。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 你 * 个 子 * 矮 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>不要说人家的伤心事，不过科学家们说过，浓缩的都是精华，哈哈哈哈。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 有 爸 爸 妈 妈 吗 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>从生物学角度来说，我不属于动物，植物，昆虫，所以我没有爸爸妈妈。不过，制造我的工程师们都拿我当做他们的宝宝，而且给我起了个可爱的名字，铁蛋。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 会 唱 歌 吗 </item>
+                    </grammar>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>我的歌声实在不好听，还是给你讲个笑话吧。爸爸带着儿子气喘吁吁地爬到山顶。 爸爸说：“快看哪，我们脚下的一片平原景色多好！”儿子说：“既然下面的景色好，我们干吗要花3个小时爬到上面来呢？爸爸。”</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 什 么 是 人 工 智 能 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>人工智能，英文缩写为艾。它是研究、开发用于模拟、延伸和扩展人的智能的理论、方法、技术及应用系统的一门新的技术科学。人工智能是计算机科学的一个分支，是对人的意识、思维的信息过程的模拟。人工智能不是人的智能，但能像人那样思考、也可能超过人的智能。人工智能是一门极富挑战性的科学，从事这项工作的人必须懂得计算机知识，心理学和哲学。人工智能是包括十分广泛的科学，它由不同的领域组成，如机器学习，计算机视觉等等，总的说来，人工智能研究的一个主要目标是使机器能够胜任一些通常需要人类智能才能完成的复杂工作。比如我就是用来向你们展示我卓越的口才的，呵呵呵。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 喜 欢 吃 鱼 吗 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>鱼是进补的好水产食品，不仅味道鲜美，而且营养价值极高。其蛋白质含量为猪肉的两倍，且属于优质蛋白，人体吸收率高。鱼真的很好吃，要是不放刺就更好了。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 有 多 少 国 家 </item>
+                        <item>$ 有 多 少 * 国 家 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>有两个国家，中国和外国。哈哈哈哈，和你开了个玩笑，据统计，世界上共有224个国家和地区，其中国家为193个，地区为31个。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 真 的 有 鬼 吗 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>当然有，我就见过好多，比如聪明鬼，机灵鬼，吝啬鬼，小气鬼，邋遢鬼，爱哭鬼，还有懒鬼。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 时 间 旅 行 * 存 在 吗 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>一切皆有可能，也许在我们周围就有来自未来世界的时间旅行者呢。只要努力学习知识，也许你们之中就会出现能够穿越时空的伟大科学家。加油哦，小科学家们。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 多 少 种 动 物 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>我的数据库里显示，迄今为止,巳被鉴定的物种总数只有140万--174万种.约87%的哺乳动物、爬行动物、两栖动物、鸟类、鱼类巳被鉴定,而无脊椎动物和微生物的大部分还未认识,全部植物的90%以上尚未开展研究.因此,人类至今对丰富的物种资源的认识还十分有限,巳利用的更是其中的小部分。 美国国家自然科学基金会的“生命之树”项目的研究结果日前给出了一个不那么精确的答案：估测数据显示,世界上大概存在介于500万种到1亿种不同的生物物种，而现代科学所发现的物种只有大约200万种。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 儿 童 节 * 由 来 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>国际儿童节的设立，和发生在二战期间一次著名的屠杀--利迪策惨案有关。1942年6月10日，德国法西斯枪杀了捷克利迪策村16岁以上的男性公民140余人和全部婴儿，并把妇女和90名儿童押往集中营。村里的房舍、建筑物均被烧毁，好端端的一个村庄就这样被德国法西斯给毁了。第二次世界大战结束后，世界各地经济萧条，成千上万的工人失业，过着饥寒交迫的生活。儿童的处境更糟，有的得了传染病，一批批地死去；有的则被迫当童工，受尽折磨，生活和生命得不到保障。为了悼念利迪策惨案和全世界所有在战争中死难的儿童，反对虐杀和毒害儿童，以及保障儿童权利，1949年11月，国际民主妇女联合会在莫斯科举行理事会议，各国代表愤怒地揭露了帝国主义分子和各国反动派残杀、毒害儿童的罪行。为了保障世界各国儿童的生存权、保健权和受教育权，为了改善儿童的生活，会议决定以每年的6月1日为国际儿童节。当时的很多国家表示赞同，特别是社会主义国家。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 怎 么 样 让 蚊 子 不 叮 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>放《摇篮曲》，蚊子就去睡觉了，就不会咬人了。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 你 * 会 做 梦 吗 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>当然会，日有所思，夜有所梦，所以我经常会梦到我变成了擎天柱，哈哈哈。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 你 晚 上 睡 在 哪 里 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>写字台上，椅子上，地上，沙发上，不知道主人何时能给我一个属于我自己的儿童房。</item>
+                        </prompt>
+                    </output>
+                </input>
+
+                <input>
+                    <grammar>
+                        <item>$ 你 喜 欢 猫 还 是 * 狗 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>肯定是猫，我长得真么可爱，狗会用它湿湿的舌头把我舔生锈的。</item>
+                        </prompt>
+                    </output>
+                </input>
+            </folder>
+
+            <!-- <folder label="retrieve and rank " id="folder_rnr">
+                
+                <input>
+                    <grammar>
+                        <item>$ 什 么 是 </item>
+                        <item>$ 是 什 么 </item>
+                        <item>$ 为 什 么 </item>
+                        <item>$ 哪 个 </item>
+                    </grammar>
+                    <action varName="question" operator="SET_TO">{question.source}</action>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>{"Backend_Action":"rnr"}</item>
+                        </prompt>
+                        <getUserInput>
+                            <input>
+                                <grammar>
+                                    <item>$ 你 * 不 对 </item>
+                                    <item>$ 你 * 错 </item>
+                                </grammar>
+                                <output>
+                                    <prompt selectionType="RANDOM">
+                                        <item>啊哦！那也不是我的问题，是教的问题！</item>
+                                        <item>啊哈！被你发现了，但是我在努力修炼中哦！</item>
+                                    </prompt>
+                                </output>
+                            </input>
+                            <input>
+                                <grammar>
+                                    <item>$ 你 * 对 * 吗 </item>
+                                    <item>$ 你 * 错 * 吧 </item>
+                                </grammar>
+                                <output>
+                                    <prompt selectionType="RANDOM">
+                                        <item>啊哦！是么？那你认为正确答案是什么</item>
+                                        <item>啊哦！是么？那你告诉正确答案吧</item>
+                                    </prompt>
+                                    <getUserInput>
+                                        <input>
+                                            <grammar>
+                                                <item>$ 不 知 道</item>
+                                            </grammar>
+                                            <output>
+                                                <prompt selectionType="RANDOM">
+                                                    <item>哼！你不知道，凭什么认为我说的不对！</item>
+                                                </prompt>
+                                            </output>
+                                        </input>
+                                    </getUserInput>
+                                </output>
+                            </input>
+                            <input>
+                                <grammar>
+                                    <item>$ 对 </item>
+                                    <item>$ 正 确 </item>
+                                    <item>$ 真 棒 </item>
+                                </grammar>
+                                <output>
+                                    <prompt selectionType="RANDOM">
+                                        <item>哈哈！那是当然了！</item>
+                                    </prompt>
+                                </output>
+                            </input>
+                        </getUserInput>
+                    </output>
+                </input>
+            </folder> -->
+
+            <folder label="hello" id="folder_hello">
+                <input>
+                    <grammar>
+                        <item>$ 你 好 </item>
+                        <item>$ 您 好 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>你好</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 下 午 好 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>下午好</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 晚 上 好 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>晚上好</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 晚 安 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>晚安</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 你 * 名 字 </item>
+                        <item>$ 你 是 谁 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>我叫钢豆，也可以叫我蓝色小巨人，哈哈哈！</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 你 几 岁 </item>
+                        <item>$ 你 多 大 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>我刚刚诞生不久，还不到两个月</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 我 是 (DYNAMIC_DATA)={personName}</item>
+                        <item>$ 我 叫 (DYNAMIC_DATA)={personName}</item>
+                    </grammar>
+
+                    <action varName="personName" operator="SET_TO">{personName.source}</action>
+
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>{"Backend_Action":"sayHello","Person_Name":"{personName}"}</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 你 * 会 做 * 什 么 </item>
+                        <item>$ 你 * 会 干 * 什 么 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>我会，唱歌、跳舞、讲故事、回答问题，还会帮你控制家里电器</item>
+                        </prompt>
+                    </output>
+                </input>
+                <input>
+                    <grammar>
+                        <item>$ 你 会 * 扫 地 </item>
+                        <item>$ 你 会 * 打 扫 </item>
+                        <item>$ 你 会 * 打 水 </item>
+                    </grammar>
+                    <output>
+                        <prompt selectionType="RANDOM">
+                            <item>对不起，我不是家庭主妇！</item>
+                        </prompt>
+                    </output>
+                </input>
+            </folder>    
+    
+
+        </folder>
+        <folder label="Global"/>
+        <folder label="Concepts"/>
+    </flow>
+	
+    <entities>
+	    <entity name="Story">
+            <value name="long" value="1">
+                <grammar>
+                    <item>长</item>
+                </grammar>
+            </value>
+            <value name="short" value="0">
+                <grammar>
+                    <item>短</item>
+                </grammar>
+            </value>
+        </entity>
+		<entity name="DYNAMIC_DATA">
+            <value name="DataCapture" value="DataCapture">
+                <grammar>
+                    <item>*</item>
+                </grammar>
+            </value>
+        </entity>
+    </entities>
+
+    <constants>
+        <var_folder name="Home">
+            <var_folder name="General" type="CONST">
+                <var name="VA" type="TAG" description="Name of the virtual agent">Peppe</var>
+            </var_folder>
+        </var_folder>
+    </constants>
+	
+    <variables>
+        <var_folder name="Home">
+		    <var name="storyLength" type="NUMBER" initValue="0" />
+            <var name="personName" type="TEXT"/>
+            <var name="question" type="TEXT"/>
+        </var_folder>
+    </variables>
+
+    <settings>
+        <setting name="USERIDNUM" type="USER">759</setting>
+        <setting name="EMAIL" type="USER"></setting>
+        <setting name="PASSWORD" type="USER"></setting>
+        <setting name="FIRSTNAME" type="USER">IBM</setting>
+        <setting name="LASTNAME" type="USER">Watson</setting>
+        <setting name="COUNTRY" type="USER">USA</setting>
+        <setting name="STATE" type="USER">NY State</setting>
+        <setting name="CITY" type="USER">NY</setting>
+        <setting name="BDAY" type="USER">1</setting>
+        <setting name="BMONTH" type="USER">1</setting>
+        <setting name="BYEAR" type="USER">2000</setting>
+        <setting name="SEX" type="USER">Male</setting>
+        <setting name="DISPLAYNAME" type="USER">IBM Watson</setting>
+        <setting name="PROVIDESECURITYPASSWORD" type="USER">false</setting>
+        <setting name="SECURITYPASSWORD" type="USER"></setting>
+        <setting name="SHOWPERSPROFILE" type="USER">false</setting>
+        <setting name="USETYPE" type="USER">0</setting>
+        <setting name="DATEJOINED" type="USER">2015-08-07 16:27:53.281</setting>
+        <setting name="LASTLOGIN" type="USER">2015-08-07 16:27:53.281</setting>
+        <setting name="LOGINCOUNT" type="USER">0</setting>
+        <setting name="CREDIT" type="USER">100</setting>
+        <setting name="CONVCOUNT" type="USER">4</setting>
+        <setting name="PERSONALITYTYPEID" type="USER">0</setting>
+        <setting name="SHOWSENDMESSAGE" type="USER">true</setting>
+        <setting name="ACTIVATED" type="USER">true</setting>
+        <setting name="MESSENGEREMAIL" type="USER"></setting>
+        <setting name="MESSENGERPASSWORD" type="USER"></setting>
+        <setting name="SENDCHATEMAIL" type="USER">true</setting>
+        <setting name="SENDFAVEMAIL" type="USER">true</setting>
+        <setting name="CACHE" type="USER">true</setting>
+        <setting name="CLASSTYPE" type="USER">3</setting>
+        <setting name="AUTOLEARN" type="USER">false</setting>
+        <setting name="LANGUAGE" type="USER">EN</setting>
+        <setting name="RESPONSETIME" type="USER">-2</setting>
+        <setting name="MAXAUTOLEARNITEMS" type="USER">0</setting>
+        <setting name="NUMAUTOSETRELATED" type="USER">0</setting>
+        <setting name="TIMEZONEID" type="USER">Australia/Sydney</setting>
+        <setting name="AUTOSETRELATEDNODEID" type="USER">0</setting>
+        <setting name="RETURNTOCHATNODEID" type="USER">0</setting>
+        <setting name="INPUTMASKTYPE" type="USER">0</setting>
+        <setting name="NUMLOGINATTEMPTS" type="USER">0</setting>
+        <setting name="CONCEPTMATCHING" type="USER">0</setting>
+        <setting name="UI_COLOUR"></setting>
+        <setting name="USE_CONCEPTS">3</setting>
+        <setting name="AL_NONE_LABEL">None of the above</setting>
+        <setting name="ASR_RANDOM">true</setting>
+        <setting name="DYNAMIC_MESSAGING">false</setting>
+        <setting name="DOCBASE_NUM_RESULTS">3</setting>
+        <setting name="DOCBASE_DESC_LEN">250</setting>
+        <setting name="STATUS">0</setting>
+        <setting name="DEFAULT_DNR_RETURN_POINT_CANDIDATE">-1</setting>
+        <setting name="ENTITIES_SCOPE">3</setting>
+        <setting name="POSTNODEID"></setting>
+        <setting name="MULTISENT">0</setting>
+        <setting name="DNR_NODE_ID">-15</setting>
+        <setting name="CLEARCACHE">sd6pprd-dfd2 sd6pprd-1e75</setting>
+    </settings>
+    <specialSettings>
+        <specialSetting label="DNR Join Statement">
+            <variations/>
+        </specialSetting>
+    </specialSettings>
+</dialog>

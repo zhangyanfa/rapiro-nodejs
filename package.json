@@ -1,0 +1,20 @@
+{
+  "name": "dialog-robot",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cfenv": "1.0.x",
+    "express": "4.13.x",
+    "express-ws": "^1.0.0",
+    "qs": "^6.2.0",
+    "request": "^2.72.0",
+    "watson-developer-cloud": "^1.1.2"
+  },
+  "repository": {},
+  "engines": {
+    "node": "4.x"
+  }
+}

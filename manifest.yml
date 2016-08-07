@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: rapiro-nodejs
+  host: rapiro-nodejs
+  disk_quota: 1024M
+  services:
+  - Dialog-th
+  - Retrieve and Rank-bt
+  - Speech To Text-w5
